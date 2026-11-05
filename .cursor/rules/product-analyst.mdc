@@ -1,0 +1,13 @@
+---
+description: English writing contract for docs/product/spec.md. Only product-analyst may write this file.
+globs: docs/product/spec.md
+alwaysApply: false
+---
+
+# Product spec
+
+This file is the English product description. It covers the functional spec, UML stored as Markdown text, and identity management. It links to architecture.md, error-handling.md, and concurrency.md.
+
+product-analyst is the one analyst allowed to write this file.
+
+This rule does not permit advisor, planner, builder, tester, reviewer, formalizer, or translator to rewrite the file.

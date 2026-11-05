@@ -1,0 +1,13 @@
+---
+description: English writing contract for docs/product/architecture.md. Only architecture-analyst may write this file.
+globs: docs/product/architecture.md
+alwaysApply: false
+---
+
+# Architecture
+
+This file is English and covers only architecture.
+
+architecture-analyst is the one analyst allowed to write this file.
+
+This rule does not permit advisor, planner, builder, tester, reviewer, formalizer, or translator to rewrite the file.

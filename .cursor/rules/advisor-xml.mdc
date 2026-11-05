@@ -1,0 +1,26 @@
+---
+description: Contract for English advisor handoff XML in audit/advisor. Later agents follow these steps instead of inventing a new plan.
+globs: audit/advisor/**/*.xml
+alwaysApply: false
+---
+
+# Advisor XML
+
+Files in `audit/advisor/` are handoffs for later agents. Prose inside them is English.
+
+- Read `<meta>`, `<decision>`, and `<next-steps>` before acting.
+- Run `<step>` items in `id` order and honor `<depends-on>`.
+- Do not perform `owner="developer"` steps. If one is `pending`, stop and send the developer to `<pair><markdown>`.
+- For `owner="delegated-agent"`, invoke `<delegate-to>` instead of doing the work.
+- Do not rewrite the plan unless the user called `/advisor --update` on this file.
+- The filename is `YYYY-MM-DD-ADVISOR-<title>.xml`, for example `2026-11-05-ADVISOR-example.xml`.
+- Keep `<pair><markdown>` pointed at `local/advisor/YYYY-MM-DD-ADVISOR-<title>.md` with the same date, `ADVISOR`, and title.
+
+```xml
+<step id="2" owner="agent" status="pending">
+  <title>Add the health route</title>
+  <depends-on>1</depends-on>
+</step>
+```
+
+A `developer` step stays pending until the person finishes it.

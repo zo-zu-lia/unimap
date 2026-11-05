@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<advisor-output>
+  <meta>
+    <revision>6</revision>
+    <updated>2026-11-05T01:37:12Z</updated>
+    <mode>execute</mode>
+    <status>executed</status>
+    <source-input>local/notes/setup-developer-steps-update.txt</source-input>
+    <pair>
+      <xml>audit/advisor/2026-11-05-ADVISOR-setup.xml</xml>
+      <markdown>local/advisor/2026-11-05-ADVISOR-setup.md</markdown>
+    </pair>
+  </meta>
+  <context>
+    <project-state>The workspace d:\university\unimap has an empty .git directory, a root .gitignore, docs/product/spec.md, docs/product/roadmap.md, and .cursor/mcp.json. There is no package.json, no apps/ directory, and no commit. Agent files are .cursor/agents/advisor.md, planner.md, builder.md, tester.md, and reviewer.md. local/notes/baseline.txt is exactly baseline: rebuild-stage-1. docs/github.txt still contains only https://github.com/juis6world/unimap.git. origin is https://github.com/zo-zu-lia/unimap.git. gh repo view zo-zu-lia/unimap returns the name unimap. Issue 1 is titled Scaffold the locked monorepo and CI. gh auth status exited 0 for the active account zo-zu-lia. .cursor/mcp.json uses the Cursor mcpServers schema, the GitHub remote MCP URL, and a header whose credential is an environment-variable reference. No credential value was written into the workspace. This pass did not commit, push, clone, or change git config.</project-state>
+    <input-summary>The brief says local/notes/baseline.txt has been added. It also says a later advisor execute installs gh, then the developer logs in themselves in the terminal, and a following execute continues the plan.</input-summary>
+  </context>
+  <decision>
+    <goal>Keep the developer's baseline line rebuild-stage-1, let the next execute install the GitHub CLI and stop until that developer logs in from the terminal, then bind https://github.com/zo-zu-lia/unimap.git and finish the setup documents, agents, MCP, and the single slice 0 scaffold issue.</goal>
+    <rationale>The baseline file meets the revision-2 acceptance and selects rebuild-stage-1. That choice matches the clean-sheet sentence in local/notes/setup.txt. Overriding it back to import-github was rejected. Slice 0 is therefore one scaffold issue, and https://github.com/juis6world/unimap.git stays only in docs/github.txt. Step 1 is done in XML. The markdown box was not ticked, because agents do not tick developer boxes. The box was removed from the gate list so a finished unchecked item cannot block execute. The revision-2 credential step is obsolete. The new brief replaces an agent login and an out-of-repo token with a pause: the agent installs gh, and the developer runs gh auth login in the terminal. Putting that login in the gate as an empty checkbox was rejected, because the execute gate closes on any empty box and on any developer step whose status is pending, which would stop the install from starting. Step 3 is therefore owner developer and status blocked, and the marker body is None. so the first execute can install gh. Step 4 must not depend on step 3, because step 3 becomes done only after step 4 sees a successful gh auth status. If that status fails, step 4 stays pending, step 3 stays blocked, the marker stays None., the document status becomes partial, and the pass stops. The agent must not run gh auth login, must not pass a token on stdin, and must not write a token into the workspace or this handoff. A same-pass continuation after install is allowed only when gh auth status already succeeds; this update did not check that. Binding stays as in revision 2: git init only when .git is absent, origin https://github.com/zo-zu-lia/unimap.git, an empty private repository only if zo-zu-lia/unimap is missing, no visibility change if it exists, a root secret gitignore, and no commit, push, clone, or git-config change. Ids 2 through 7 are reused by this new sequence after the revision-2 steps with those ids were removed from next-steps. No project subagent besides advisor exists, so nothing in this decision is delegated.</rationale>
+  </decision>
+  <next-steps>
+    <step id="1" owner="developer" status="done">
+      <title>Record the code baseline</title>
+      <details>The developer finished this step. local/notes/baseline.txt exists and its entire contents are baseline: rebuild-stage-1, with no token. rebuild-stage-1 means a later ticket scaffolds the monorepo from the written spec and does not import https://github.com/juis6world/unimap.git. Do not change the line. Do not add an issues line. The working repository is already https://github.com/zo-zu-lia/unimap.git. Do not put tokens, passwords, or connection strings in the file. Do not initialize git, clone, push, or create product files in this step.</details>
+      <acceptance>local/notes/baseline.txt exists, its text is baseline: rebuild-stage-1, and it contains no ghp_ or github_pat_ value.</acceptance>
+      <depends-on></depends-on>
+      <delegate-to></delegate-to>
+    </step>
+    <step id="2" owner="agent" status="done">
+      <title>Install the GitHub CLI</title>
+      <details>Do not run gh auth login or gh auth status. Do not print or write a token. If gh version already exits 0, do not reinstall. If it does not, and winget is available, install the official GitHub CLI with winget install --id GitHub.cli -e --source winget. If gh is missing and winget is missing, set this step to blocked, set the document status to partial, and do not download a binary from a URL this step does not name. Do not set step 3 to pending. Do not add a checkbox under the developer-steps marker. Do not clone, commit, push, or edit product code.</details>
+      <acceptance>gh version exits 0. No file in the workspace contains ghp_ or github_pat_. docs/github.txt still contains only https://github.com/juis6world/unimap.git.</acceptance>
+      <depends-on>1</depends-on>
+      <delegate-to></delegate-to>
+    </step>
+    <step id="3" owner="developer" status="done">
+      <title>Log in with gh in the terminal</title>
+      <details>After step 2, the developer runs gh auth login in their own terminal and finishes that flow for an account that can view or create https://github.com/zo-zu-lia/unimap.git and can open issues there. Do not paste a token into the repository, local/notes/baseline.txt, .cursor/mcp.json, audit/advisor, local/advisor, or the chat. This step stays blocked, not pending, until step 4 sees a successful gh auth status, so an empty gate does not prevent the install pass. The agent must not run gh auth login, must not set this step to pending, and must not tick a checkbox.</details>
+      <acceptance>Step 4 has set this step to done after gh auth status exits 0, and no file in the workspace contains ghp_ or github_pat_.</acceptance>
+      <depends-on>2</depends-on>
+      <delegate-to></delegate-to>
+    </step>
+    <step id="4" owner="agent" status="done">
+      <title>Confirm the terminal login</title>
+      <details>Depend on step 2, not on step 3. Run gh auth status. Do not pass a flag that prints a credential. Do not run gh auth login. Do not read a token from the environment and do not pass a token on stdin. If gh auth status fails, leave this step pending, leave step 3 blocked, leave the markdown developer-steps body as None., set the document status to partial, record that the developer must log in in their own terminal, and stop before step 5. If gh auth status succeeds, set step 3 to done and set this step to done. Do not store a token in the workspace or in this handoff.</details>
+      <acceptance>gh auth status exits 0. No file in the workspace contains ghp_ or github_pat_.</acceptance>
+      <depends-on>2</depends-on>
+      <delegate-to></delegate-to>
+    </step>
+    <step id="5" owner="agent" status="done">
+      <title>Bind origin</title>
+      <details>Do not start unless step 4 is done. Do not print a token. Do not run gh auth login. Run gh repo view zo-zu-lia/unimap. If the repository is missing, create an empty private repository named unimap under the owner zo-zu-lia, with no generated README, license, or gitignore. If the authenticated account cannot create that repository, stop, set this step to blocked, and do not invent another owner. If the repository already exists, do not change its visibility. Do not change git config. If .git is absent, run git init. Add or set origin to https://github.com/zo-zu-lia/unimap.git. Add a root .gitignore that ignores .env, .env.*, and files named with the extensions pem, key, and p12, if those names are not already ignored. Do not commit, do not push, do not clone https://github.com/juis6world/unimap.git, and do not rewrite docs/github.txt. Do not store a token in the repository or in this handoff.</details>
+      <acceptance>gh auth status succeeds, gh repo view zo-zu-lia/unimap --json name succeeds, and git remote get-url origin prints https://github.com/zo-zu-lia/unimap.git. git rev-parse HEAD fails because this step creates no commit. docs/github.txt still contains only https://github.com/juis6world/unimap.git. No file in the workspace contains ghp_ or github_pat_.</acceptance>
+      <depends-on>4</depends-on>
+      <delegate-to></delegate-to>
+    </step>
+    <step id="6" owner="agent" status="done">
+      <title>Write the locked spec and roadmap</title>
+      <details>Do not start unless step 4 is done. Read local/notes/baseline.txt and stop with this step blocked unless its text is baseline: rebuild-stage-1. Do not switch the plan to import-github. Read docs/github.txt and the locked list in this step. Do not require an issues line. The working repository is https://github.com/zo-zu-lia/unimap.git. Create docs/product/spec.md and docs/product/roadmap.md as summaries. Do not paste the thesis or the slides. The spec must lock all of the following: indoor navigation for a university; roles guest, registered user, and administrator; guest map pan and zoom, floor switch, search, category filter, room details, shortest path including between floors, and events; registered user saved rooms, saved routes, and personal history; administrator management of buildings, floors, maps, rooms, and events, plus the stage-1 admin surface named in Unimap 2.0 (users, audit, client logs, apps/admin); stack TypeScript strict, Node.js LTS, NestJS 11, Fastify, PostgreSQL 16, Drizzle ORM, REST and GraphQL Mercurius, JWT cookies, bcrypt, Redis 7, BullMQ, S3-compatible storage with MinIO for local use, Next.js 15, React 19, Tailwind CSS 4, Material Design 3, TanStack Query, Zustand, Zod, Jest, ESLint, Prettier, and npm workspaces; apps/api, apps/web, and apps/admin; SVG groups room, node, and edge; inter-floor token 00; BFS connectivity before publication; A* with a Euclidean heuristic. State that Porto SAP is the stage-2 layout of containers and a ship layer inside the existing NestJS app. State that the first slices do not split microservices, do not replace the stack, do not add Notion, Figma, Datadog, or a database MCP, and do not merge or deploy automatically. State that docs/github.txt remains the stage-1 source URL and that origin is https://github.com/zo-zu-lia/unimap.git. The roadmap order is: slice 0, the open slice; slice 1, Porto ship layer and the Wayfinding pilot; slice 2, the remaining containers and CI boundary checks; slice 3, accessible routes, schedule, and booking; slice 4, QR and PWA, multiple campuses, analytics, and the map editor. Slice 0 is one piece of work: scaffold apps/api, apps/web, and apps/admin with the locked stack, a health route, and CI for typecheck and lint, without auth, maps, or Porto. Mark only slice 0 as open now. Do not create application source or package.json. Do not initialize git and do not add a remote.</details>
+      <acceptance>Both docs/product/spec.md and docs/product/roadmap.md exist. The spec names NestJS, Fastify, PostgreSQL, Drizzle, Next.js, React, Porto, and https://github.com/zo-zu-lia/unimap.git. The roadmap marks only slice 0 open, and that slice is the scaffold. apps/ and package.json do not exist.</acceptance>
+      <depends-on>1</depends-on>
+      <depends-on>4</depends-on>
+      <delegate-to></delegate-to>
+    </step>
+    <step id="7" owner="agent" status="done">
+      <title>Add the four manually launched agents</title>
+      <details>Stop if docs/product/spec.md is missing. Create .cursor/agents/planner.md, .cursor/agents/builder.md, .cursor/agents/tester.md, and .cursor/agents/reviewer.md. Use name and description frontmatter in the same shape as .cursor/agents/advisor.md. Write the bodies in English and instruct each agent to answer the user in Ukrainian. Each file must contain this exact sentence: Do not merge, deploy, or start another agent. Shared rules: read docs/product/spec.md; take one issue at a time; leave the next pass for the human; on failure, name the agent the human should launch again. planner opens only the next roadmap slice that is not open yet and does not implement it; it must not take the initial setup issue created by step 9. builder implements exactly one issue on a branch, puts a short source note in the pull request, and does not widen the issue. tester runs that issue's acceptance checks, uses the IDE browser on desktop and mobile when the issue changes UI, writes the result on the issue, and does not change product code in that pass. reviewer checks the diff against the spec and against this security list: bcrypt password hashes, JWT cookies with hashed refresh tokens, role boundaries, validated SVG upload, BFS connectivity before map publication, and environment secrets kept out of git. reviewer does not rewrite the ticket. Do not modify .cursor/agents/advisor.md.</details>
+      <acceptance>The four agent files exist, and each one contains the exact sentence: Do not merge, deploy, or start another agent.</acceptance>
+      <depends-on>6</depends-on>
+      <delegate-to></delegate-to>
+    </step>
+    <step id="8" owner="agent" status="done">
+      <title>Connect the GitHub MCP</title>
+      <details>Do not start unless step 5 is done. Read the current Cursor documentation for the project MCP file before writing .cursor/mcp.json. Configure one GitHub server whose credential is an environment-variable reference. Do not write a literal token. Do not add Notion, Figma, Datadog, browser, Postgres, Redis, or S3 servers. Later UI checks use the IDE browser tools; they do not need a committed server. If the documented schema cannot be confirmed, do not invent the file. Leave this step pending, set the document status to partial, and record the missing schema in history.</details>
+      <acceptance>.cursor/mcp.json exists, its text contains no ghp_ or github_pat_ value, and it does not name Notion, Figma, or Datadog.</acceptance>
+      <depends-on>5</depends-on>
+      <delegate-to></delegate-to>
+    </step>
+    <step id="9" owner="agent" status="done">
+      <title>Open only the slice 0 issue</title>
+      <details>Do not start until steps 5 and 7 are done. Read local/notes/baseline.txt and docs/product/roadmap.md. The baseline line must be baseline: rebuild-stage-1. Using gh, create issues in zo-zu-lia/unimap. Do not invoke planner, builder, tester, or reviewer. Create exactly one issue titled Scaffold the locked monorepo and CI. The body must name docs/product/spec.md, list acceptance checks, state that Porto and stage-2 features are out of scope, state that auth and maps are out of scope, and state the later human order: builder, then tester, then reviewer. Do not create an import issue. Do not open slices 1 through 4. Do not implement the issue, push product code, or merge.</details>
+      <acceptance>gh issue list for zo-zu-lia/unimap shows the title Scaffold the locked monorepo and CI, and it shows no issue title that starts with Porto, Schedule, or Import.</acceptance>
+      <depends-on>5</depends-on>
+      <depends-on>7</depends-on>
+      <delegate-to></delegate-to>
+    </step>
+  </next-steps>
+  <delegation>
+    <candidate agent="advisor" feasible="false">This execute finished the agent-owned setup steps directly. It did not run gh auth login.</candidate>
+    <candidate agent="planner" feasible="false">The file now exists. This pass did not invoke it. Step 9 opened the slice 0 issue directly, and planner must not take that issue.</candidate>
+    <candidate agent="builder" feasible="false">The file now exists. Implementation starts only after a human launches it on the slice 0 issue.</candidate>
+    <candidate agent="tester" feasible="false">The file now exists. A human launches it after builder on the same issue.</candidate>
+    <candidate agent="reviewer" feasible="false">The file now exists. A human launches it after tester. It is not a license to merge.</candidate>
+  </delegation>
+  <history>
+    <entry revision="1" at="2026-11-05T00:50:00Z">Created from local/notes/setup.txt. Locked the written stack, replaced the seven-block pipeline with a manual four-agent loop, and left the baseline choice to the developer.</entry>
+    <entry revision="2" at="2026-11-05T01:05:00Z">Updated from local/notes/setup-github-update.txt. Superseded revision-1 step 1 "Record the baseline and issue repository", step 2 "Authorize GitHub for the named repository", step 3 "Write the locked spec and roadmap", step 4 "Connect the GitHub MCP", step 5 "Add the four manually launched agents", and step 6 "Open only the slice 0 issues". The active list is revision 2: baseline.txt keeps only the code-source line, the working repository is zo-zu-lia/unimap, and GitHub login plus the origin bind wait for an out-of-repo credential.</entry>
+    <entry revision="3" at="2026-11-05T01:22:00Z">Updated from local/notes/setup-developer-steps-update.txt. Step 1 "Record the code baseline" is done: local/notes/baseline.txt is baseline: rebuild-stage-1. Superseded revision-2 step 2 "Make a GitHub credential available outside the repo", step 3 "Write the locked spec and roadmap", step 4 "Sign in with gh and bind origin", step 5 "Connect the GitHub MCP", step 6 "Add the four manually launched agents", and step 7 "Open only the slice 0 issues". Those six steps were removed from next-steps. Ids 2-7 now belong to the new sequence: install gh, pause for a developer terminal login, then continue the rebuild-stage-1 plan.</entry>
+    <entry revision="4" at="2026-11-05T01:27:34Z">Execute pass. Step 2 "Install the GitHub CLI" is done: gh version 2.72.0 already exited 0, so the CLI was not reinstalled. Step 4 "Confirm the terminal login" stays pending because gh auth status exited 1: the active github.com account zo-zu-lia was reported, and the saved account juis6 failed, so the command did not succeed. Step 3 "Log in with gh in the terminal" stays blocked. The developer must log in in their own terminal. The agent did not run gh auth login, did not switch accounts, and did not start steps 5 through 9. docs/github.txt is unchanged. No credential was written into the workspace or this handoff.</entry>
+    <entry revision="5" at="2026-11-05T01:33:02Z">Execute pass. The developer had run gh auth login, and the active github.com account zo-zu-lia was logged in. Step 4 "Confirm the terminal login" stays pending because gh auth status still exited 1: the inactive saved account juis6 has an invalid token, so the command did not succeed. Step 3 "Log in with gh in the terminal" stays blocked. The developer must make gh auth status exit 0 from their own terminal. The agent did not run gh auth login, did not run gh auth logout, did not switch accounts, and did not start steps 5 through 9. No credential was written into the workspace or this handoff.</entry>
+    <entry revision="6" at="2026-11-05T01:37:12Z">Execute pass. gh auth status exited 0, so step 3 "Log in with gh in the terminal" and step 4 "Confirm the terminal login" are done. Step 5 "Bind origin" is done: zo-zu-lia/unimap already existed, git init created an empty repository, and origin is https://github.com/zo-zu-lia/unimap.git. Step 6 "Write the locked spec and roadmap" is done. Step 7 "Add the four manually launched agents" is done. Step 8 "Connect the GitHub MCP" is done from the current Cursor mcp.json schema and the GitHub remote MCP URL, with the credential kept as an environment-variable reference. Step 9 "Open only the slice 0 issue" is done: issue 1 is Scaffold the locked monorepo and CI. No commit, push, clone, or git-config change. No credential was written into the workspace or this handoff.</entry>
+  </history>
+</advisor-output>

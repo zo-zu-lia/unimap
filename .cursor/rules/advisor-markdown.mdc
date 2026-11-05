@@ -1,0 +1,23 @@
+---
+description: Developer note for advisor plans in local/advisor. Shorter than the XML, and the only place for steps the agent must not do alone.
+globs: local/advisor/**/*.md
+alwaysApply: false
+---
+
+# Advisor markdown
+
+`local/advisor/YYYY-MM-DD-ADVISOR-<title>.md` is the local developer's note, for example `2026-11-05-ADVISOR-example.md`. It is shorter than the paired XML of the same name in `audit/advisor/`.
+
+- Write the body in the brief's language. Keep both HTML comments exactly as written.
+- Put work the agent cannot do under `<!-- advisor:developer-steps -->`, as unchecked `- [ ]` items.
+- Those checkboxes are the `/advisor --execute` gate. Agents do not tick them.
+- Do not copy XML rationale, rejected alternatives, or evidence lists into this file.
+
+```markdown
+## Developer steps
+<!-- advisor:developer-steps -->
+
+- [ ] Create the API key and store it outside git.
+```
+
+`None.` under the marker means there is no human step.

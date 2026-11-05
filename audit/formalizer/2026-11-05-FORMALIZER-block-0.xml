@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<formalizer-report>
+<status>
+integrity: ok
+conflict: History ownership disagrees. Thesis 1.5 and 4.8 keep temporary search and route history on the guest account, while thesis 3.5, 3.8, and 5.6 withhold stored history until sign-in, and thesis 4.6 stores a successful path for an authorized user. Unimap 2.0 stage 1, marked done, lists that history, including replay, for students and guests. spec.md, architecture.md, and error-handling.md leave the choice unrecorded, but spec.md and architecture.md still attribute a guest denial to error-handling.md, and spec.md says that file returns HTTP 403 for a guest history request. error-handling.md assigns no status for that request. concurrency.md states no history denial.
+conflict: Saved items and event creation disagree. Unimap 2.0 stage 1, marked done, gives students and guests personal saved rooms and routes and creation of personal events. The diploma presentation lists viewing and creating events for the user and global-event creation for the administrator. The thesis gives saving to the registered user and university-event creation to the administrator, and it does not describe personal events. spec.md leaves the extras unselected, but it says the other three English files follow that thesis split and that error-handling.md returns HTTP 403 for a guest save. error-handling.md leaves the guest-save status and non-administrator event creation unsettled and does not state that 403. concurrency.md does not state the split. architecture.md leaves the saved-item rule and the event model open.
+conflict: The monorepo layout disagrees. Thesis 3.1 states the npm workspaces are apps/api and apps/web. Unimap 2.0 stage 1, marked done, states three applications: api, web, and admin. The diploma presentation describes an administrator interface and does not name a workspace. spec.md leaves the packaging unresolved and also says architecture.md, error-handling.md, and concurrency.md specify apps/admin. architecture.md and error-handling.md leave that packaging open. concurrency.md does not name apps/admin. A difference between the public repository and the Unimap 2.0 presentation is not this conflict.
+conflict: The process boundary disagrees. The diploma presentation lists client-server structure, a monorepo, and microservices together. The thesis describes one API application and one web client. Unimap 2.0 describes the current backend as a modular monolith and a later path toward microservices, with the navigation section, including A*, as an example service boundary under route-search load. The four English files leave that boundary open. concurrency.md keeps one-process mechanics and leaves the microservices wording beside them.
+conflict: The administrator surface disagrees. Thesis 1.5, 4.11, and 5.10 limit administration to buildings, floors, maps, rooms, and events. The diploma presentation adds a user list, role settings, and account deletion. Unimap 2.0 stage 1, marked done, adds those account operations and also administrator-action audit and client-log collection. spec.md, architecture.md, and error-handling.md leave that wider surface unselected. error-handling.md assigns those screens no status code.
+conflict: Cross-container calls disagree. spec.md says containers call each other through actions or events. concurrency.md says containers affect one another through an action, a task, or an event. architecture.md records no choice. Unimap 2.0 states both Actions/Tasks of another container or Events, and, in the migration mapping, public Actions or Events.
+</status>
+<meta>
+  <date>2026-11-05</date>
+  <input>local/notes/block-0-resolutions.txt</input>
+  <input-effect>This pass used local/notes/block-0-resolutions.txt. Its text is "none for me" and a pointer to this report. That file does not choose a side. The line "none for me" is not a resolution. It did not resolve the previous conflicts.</input-effect>
+  <prior-input>local/notes/formalizer-init.txt</prior-input>
+  <pair>audit/formalizer/2026-11-05-FORMALIZER-block-0.xml</pair>
+  <pair>local/formalizer/2026-11-05-FORMALIZER-block-0.md</pair>
+  <product-files-edited-by-formalizer>false</product-files-edited-by-formalizer>
+</meta>
+<integrity-check>
+  <rule>integrity is ok only when docs/product/spec.md, docs/product/architecture.md, docs/product/error-handling.md, and docs/product/concurrency.md all exist, none of them is empty, and spec.md contains the strings architecture.md, error-handling.md, and concurrency.md.</rule>
+  <file path="docs/product/spec.md" bytes="31664" empty="false"/>
+  <file path="docs/product/architecture.md" bytes="18348" empty="false"/>
+  <file path="docs/product/error-handling.md" bytes="14419" empty="false"/>
+  <file path="docs/product/concurrency.md" bytes="6825" empty="false"/>
+  <spec-contains string="architecture.md" count="20"/>
+  <spec-contains string="error-handling.md" count="18"/>
+  <spec-contains string="concurrency.md" count="14"/>
+  <result>integrity: ok</result>
+</integrity-check>
+<conflicts>
+  <item id="history">
+    The thesis disagrees with itself. Role section 1.5 and history section 4.8 keep temporary search and route history on the guest account and allow registration to attach it. Use-case section 3.5 gives personal history only to the registered user. Access section 3.8 limits personal history to an authenticated user. History panel 5.6 asks a person who is not signed in to sign in. Routing section 4.6 stores each successful path request of an authorized user. Unimap 2.0 stage 1, marked done, lists search and route history, including route replay, for students and guests, without the guest-versus-registered split. spec.md records the overlap for a registered user and leaves every other caller unselected, but its history bullet says error-handling.md returns HTTP 403 when a guest or a caller without a session requests personal history. architecture.md says the owning account is open and also says the specification draft keeps temporary history on the guest session and that error-handling.md withholds guest history. error-handling.md assigns no status for a guest history read, delete, or clear, and it does not state that 403. concurrency.md gives a guest account and a registered account each a user row and a session family, and it states no history denial.
+  </item>
+  <item id="saved-and-events">
+    Unimap 2.0 stage 1, marked done, includes personal saved rooms and routes for students and guests and creation of personal events together with viewing of global events. The diploma presentation lists viewing and creating events on the user-facing slides, personal saved rooms and routes for the user, and creation of global events for the administrator. The thesis gives saved rooms and routes to the registered user and creation and editing of university events to the administrator. It describes no personal-event record. spec.md states that overlap and leaves guest saving and non-administrator event creation unselected, but it says architecture.md, error-handling.md, and concurrency.md follow the thesis split and that error-handling.md returns HTTP 403 for a guest save. error-handling.md returns HTTP 401 when a save has no access token, leaves the status of a guest save unsettled, and leaves creation or edit by a non-administrator, including a personal event, unsettled. concurrency.md does not state who may save or who may create an event. architecture.md leaves the saved-item rule and the event model open.
+  </item>
+  <item id="applications">
+    Thesis section 3.1 states that the monorepo workspaces are the directories apps/api and apps/web. Unimap 2.0 stage 1, marked done, states three applications: apps/api, apps/web, and apps/admin. The diploma presentation describes an administrator interface and does not name a workspace. spec.md leaves the packaging unresolved in its disagreement section and, in the same section and in the stack section, says the other three English files and architecture.md place the administrator surface in apps/admin. architecture.md says the packaging is open. error-handling.md says a third application stays unsettled. concurrency.md does not name apps/admin. The public repository named in docs/github.txt was not used as a source of this conflict.
+  </item>
+  <item id="process">
+    The diploma presentation architecture slide lists client-server, monorepo, and microservices together. The thesis describes one API application and one web client, with domain modules inside that API. Unimap 2.0 describes the current backend as one modular monolith and says Porto can grow from that monolith toward microservices, with the navigation section, including A*, as a possible later service when route search dominates. spec.md, architecture.md, error-handling.md, and concurrency.md leave the running process boundary open. concurrency.md describes the queue worker, the graph cache, and later subscriptions as one-process mechanics and leaves the microservices wording beside that account.
+  </item>
+  <item id="admin-surface">
+    Thesis role section 1.5 and administrator sections 4.11 and 5.10 limit administration to buildings, floors, maps, rooms, and events. The thesis module list does not name an account-administration screen, an audit screen, or client-log intake. The diploma presentation adds a user list, role settings, and account deletion. Unimap 2.0 stage 1, marked done, adds those account operations and also an audit of administrator actions and client-log collection. spec.md, architecture.md, and error-handling.md leave account administration, audit, and client logs unselected. error-handling.md describes client-report batches and audit records only for the reading in which those screens exist, and it assigns them no status code.
+  </item>
+  <item id="cross-container-calls">
+    This disagreement was not in the previous report. It is present on this check. spec.md states that containers call each other through actions or events. concurrency.md states that containers affect one another through an action, a task, or an event. architecture.md records no choice between those statements. Unimap 2.0 states that containers communicate only through Actions/Tasks of another container or Events, and its migration slide maps direct service imports to public Actions or Events. The resolutions file did not choose between them.
+  </item>
+</conflicts>
+<not-conflicts>
+  <item>A difference between the public repository named in docs/github.txt and the Unimap 2.0 presentation is not a conflict.</item>
+  <item>Stage-2 campuses, outdoor routes, tenants, schedule, booking, QR positioning, offline routing, analytics, and the map editor are later work in Unimap 2.0 and stage 2 in spec.md. The thesis does not deny those later capabilities.</item>
+  <item>Publication storage is draft or live in the thesis data model, in spec.md, and in architecture.md. Finalize is the connectivity step that moves a draft to live, including the thesis wording draft, finalize, live. Unimap 2.0 writes the same gate as draft to live.</item>
+  <item>Token 00 is a stair landing in the thesis and in spec.md stage 1. Unimap 2.0 stage 2 and spec.md stage 2 add elevator and ramp types on that token. That staging agrees.</item>
+  <item>DDD-lite is the thesis and stage-1 shape. Porto SAP is the stage-2 layout in Unimap 2.0 and in the English files. The thesis does not describe that layout and does not deny later extension.</item>
+  <item>Request throttling and DataLoader are in Unimap 2.0 and in the English files. The thesis does not assert the opposite.</item>
+  <item>error-handling.md HTTP 403 for an unverified email specifies the confirmation flow already present in the thesis and in spec.md. The thesis does not say that a password login succeeds before confirmation.</item>
+</not-conflicts>
+<next>
+  The resolutions file did not resolve the previous conflicts, and the current English files still disagree. The developer writes local/notes/block-0-resolutions.txt and runs /formalizer with that file. Translator stays unlaunched while any conflict line remains.
+</next>
+</formalizer-report>

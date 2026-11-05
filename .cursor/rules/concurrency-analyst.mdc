@@ -1,0 +1,13 @@
+---
+description: English writing contract for docs/product/concurrency.md. Only concurrency-analyst may write this file.
+globs: docs/product/concurrency.md
+alwaysApply: false
+---
+
+# Concurrency
+
+This file is English and covers only concurrency.
+
+concurrency-analyst is the one analyst allowed to write this file.
+
+This rule does not permit advisor, planner, builder, tester, reviewer, formalizer, or translator to rewrite the file.

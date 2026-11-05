@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<advisor-output>
+  <meta>
+    <revision>1</revision>
+    <updated>2026-11-05T14:55:00Z</updated>
+    <mode>brainstorm</mode>
+    <status>ready</status>
+    <source-input>local/notes/demo.txt</source-input>
+    <pair>
+      <xml>audit/advisor/2026-11-05-ADVISOR-demo.xml</xml>
+      <markdown>local/advisor/2026-11-05-ADVISOR-demo.md</markdown>
+    </pair>
+  </meta>
+  <context>
+    <project-state>The workspace d:\university\unimap is a Git repository with no commits. Its only remote is origin https://github.com/zo-zu-lia/unimap.git, which has no branches. The GitHub CLI is already logged in as zo-zu-lia. The local Git identity is juis6world. Tracked-to-be files are the agent workflow: .cursor, .gitignore, audit, docs, and local. .gitignore currently lists only .env, .env.*, *.pem, *.key, and *.p12. local/notes is not ignored. Node is v20.17.0. The docker command is not installed. docs/svg/map-10-01.svg and docs/svg/map-10-02.svg are Illustrator floor plans the developer added for this demo. The old application is a different repository, https://github.com/juis6world/unimap.git, branch main, commit d6eccc40af7f676dfa6cd3cd40ee6c9d08cdf90c. That tree has apps/api, apps/web, and apps/admin, docker-compose.yml for PostgreSQL, Redis, Mailpit, and MinIO, and .env.example with local defaults. It has no SVG seed maps. Root scripts include docker:up, test, and test:e2e. apps/api has db:migrate. The stage-1 app already has search, categories, room details, wayfinding, history, saved items, events, accounts, and admin map upload.</project-state>
+    <input-summary>The brief pauses the documentation and automation workflow and asks for an urgent local Unimap 2.0 demo taken from docs/Unimap_2.0_презентація.pdf. Commit and push the current project, ignore local/notes, then bring in the old project and extend it. Do not commit or push the demo code, because it will be reverted after the demo. Packages and tools may be installed without asking. Developer answers that are not in the repo: copy only the old repository contents into d:\university\unimap and do not attach the old remote; keep real behavior, and a hardcoded display counts as ready only when the real action cannot be done now; the user sees only the classes they indicated, and Web Push goes to that user's client; the advisor must choose the current-room point used by one-click routing and free-room distance sorting, and a QR code must not set the map start; room-change notices and a teacher subscription are out; the SVG files may be edited so the old parser accepts them; the phone and the demo computer will not share a local network, so the snapshot is opened on the phone; readiness is the old repository's existing tests green plus a manual walkthrough; the schedule is a CSV the user uploads from their device, and a demo CSV must be prepared. The in-scope presentation behaviors that remain are CSV schedule import, the next-class card, a one-click route, Web Push, occupancy color, and the free-room filter. Group subscription, email reminders, and booking requests with administrator approval are out. Three QR codes for arbitrary rooms open only a snapshot of the application interface. There is no mobile release and no deploy.</input-summary>
+    <related-handoff>audit/advisor/2026-11-05-ADVISOR-setup.xml</related-handoff>
+    <related-handoff>audit/advisor/2026-11-05-ADVISOR-agents.xml</related-handoff>
+  </context>
+  <decision>
+    <goal>Save the current workflow on origin, run the old Unimap application in this folder without its remote, and leave an uncommitted local demo of CSV schedule, next class, one-click route, occupancy, free-room filter, and three phone snapshots.</goal>
+    <rationale>The commit comes before the copy so the revert of uncommitted demo files cannot drop the workflow. The old GitHub remote is rejected because the developer asked for contents only in the current folder; origin stays https://github.com/zo-zu-lia/unimap.git, and the executed setup handoff's rebuild-stage-1 baseline is paused, not replaced. The agents handoff's Block 0 formalizer and translator work stays paused. A public tunnel and LAN hosting are rejected because the phone is not on the demo network and the brief forbids deploy, so each QR code carries a self-contained snapshot. The current room, which the developer told the advisor to choose, is a room preselected from the loaded plan that is not the next lesson's room, then whatever room the user selects; the QR code does not change it. iCal import, a faculty API, Porto migration, PWA install, accessible routes, campuses, analytics, and the map editor are outside this demo.</rationale>
+  </decision>
+  <next-steps>
+    <step id="1" owner="agent" status="pending">
+      <title>Push the current workflow</title>
+      <details>Add local/notes/ to .gitignore before staging. Commit the current workflow, including .cursor, audit, docs (with docs/svg and this handoff pair), and the rest of local except local/notes. Do not stage secrets. Push the branch to origin https://github.com/zo-zu-lia/unimap.git. Do not add https://github.com/juis6world/unimap.git as a remote. Do not copy the old application in this step.</details>
+      <acceptance>Origin contains the commit, local/notes is absent from it, and git remote shows only the zo-zu-lia origin.</acceptance>
+      <depends-on></depends-on>
+      <delegate-to></delegate-to>
+    </step>
+    <step id="2" owner="agent" status="pending">
+      <title>Copy the old application contents</title>
+      <details>Copy the file contents of https://github.com/juis6world/unimap.git branch main at commit d6eccc40af7f676dfa6cd3cd40ee6c9d08cdf90c into d:\university\unimap. Do not copy its .git directory and do not attach that URL as a remote. Keep the existing docs, .cursor, audit, and local files, including docs/svg. Merge the root .gitignore so the old application ignore rules remain and local/notes/ stays ignored. Leave the copied files uncommitted.</details>
+      <acceptance>apps/api, apps/web, apps/admin, docker-compose.yml, and package.json are present, origin is still only zo-zu-lia, and the copied application is not committed.</acceptance>
+      <depends-on>1</depends-on>
+      <delegate-to></delegate-to>
+    </step>
+    <step id="3" owner="agent" status="pending">
+      <title>Boot the old app and go green</title>
+      <details>Docker is not installed; Node v20.17.0 is already present. Install Docker and the dependencies the copied repository needs. The developer allowed tool installation without asking. Copy .env.example to .env using the local defaults already in that file. Run npm run docker:up, install workspace dependencies, and run apps/api db:migrate. Start api, web, and admin with the dev scripts those workspaces already declare. Run the root npm test and npm run test:e2e scripts.</details>
+      <acceptance>The stack is up, GET /api/health responds, and both npm test and npm run test:e2e exit 0.</acceptance>
+      <depends-on>2</depends-on>
+      <delegate-to></delegate-to>
+    </step>
+    <step id="4" owner="agent" status="pending">
+      <title>Load the SVG floor plans</title>
+      <details>Use docs/svg/map-10-01.svg and docs/svg/map-10-02.svg. The developer said these drawings may not match the old parser and may be edited so the parser accepts them. Load them through the existing map-import path so the rooms exist in the local database. Do not commit.</details>
+      <acceptance>Both floors are stored and their rooms are visible in the running web app.</acceptance>
+      <depends-on>3</depends-on>
+      <delegate-to></delegate-to>
+    </step>
+    <step id="5" owner="agent" status="pending">
+      <title>Add schedule, route, and occupancy</title>
+      <details>Prepare one demo CSV whose room codes exist on the loaded floors. The user uploads that CSV from their device; the schedule source is this file, not iCal and not a faculty API. Show only the classes from the uploaded file. On the home screen, show the next of those classes. The current room starts as a preselected loaded room that is not the next lesson's room, then follows the room the user selects. A one-click action builds a route from that current room to the next class through the existing wayfinding. Send Web Push to that user's client; if real push cannot be implemented on this local setup, a hardcoded notice counts as ready. Color each room free, occupied, or soon free from the uploaded lessons and existing events. Let a visitor filter rooms that are free now or at a chosen time, by capacity and by equipment such as a projector or computers, sorted by distance from the current room. Do not add group subscription, email reminders, room-change notices, teacher-course subscription, booking requests, or administrator approval. Keep the real behavior wherever it can be done now. Do not commit or push.</details>
+      <acceptance>Uploading the demo CSV shows only those classes, the next-class action draws a route from the current room, and occupancy colors and the free-room filter respond to that schedule. Web Push is delivered, or a hardcoded notice is shown where real push cannot be done. The excluded flows are absent. The changes are uncommitted.</acceptance>
+      <depends-on>4</depends-on>
+      <delegate-to></delegate-to>
+    </step>
+    <step id="6" owner="agent" status="pending">
+      <title>Make three self-contained QR snapshots</title>
+      <details>Create three QR codes for three arbitrary rooms on the loaded floors. Each code opens only a snapshot of the application interface for that room. The phone will not be on the demo computer's network and there is no deploy, so the snapshot must be carried by the QR code itself and must render without a request to the demo computer. The QR code does not set the map start. Do not commit or push.</details>
+      <acceptance>Decoding each of the three codes shows the matching room snapshot with no request to the demo computer.</acceptance>
+      <depends-on>5</depends-on>
+      <delegate-to></delegate-to>
+    </step>
+    <step id="7" owner="agent" status="pending">
+      <title>Walk through the demo</title>
+      <details>Repeat npm test and npm run test:e2e. Manually walk the stage-1 paths that the copied app already implements: room search, category filter, room details, a route, history, saved items, events, and an admin map view. Then walk the new paths: CSV upload, next class, one-click route, occupancy color, free-room filter, and the three snapshots. Do not commit or push. Do not resume the Block 0 documentation workflow.</details>
+      <acceptance>Both existing test commands exit 0, the manual paths above work, and git status shows the demo changes uncommitted on the zo-zu-lia origin.</acceptance>
+      <depends-on>6</depends-on>
+      <delegate-to></delegate-to>
+    </step>
+  </next-steps>
+  <delegation>
+    <candidate agent="builder" feasible="false">Builder implements one existing Unimap issue on a branch. This demo is not an issue, and the new code must stay uncommitted.</candidate>
+    <candidate agent="planner" feasible="false">Planner only opens the next roadmap slice and does not implement it.</candidate>
+    <candidate agent="tester" feasible="false">Tester runs one issue's checks and does not change product code. This work copies and extends the old application.</candidate>
+    <candidate agent="reviewer" feasible="false">Reviewer checks a diff against the spec and does not build the demo.</candidate>
+    <candidate agent="formalizer" feasible="false">The brief pauses the documentation workflow. Formalizer must not continue Block 0 during this demo.</candidate>
+    <candidate agent="translator" feasible="false">Translator belongs to the paused Block 0 documentation workflow.</candidate>
+  </delegation>
+  <history>
+    <entry revision="1" at="2026-11-05T14:55:00Z">Created from the covered demo brief.</entry>
+  </history>
+</advisor-output>
